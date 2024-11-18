@@ -1,0 +1,550 @@
+{"Layers": [{
+  "Name": "ONNXTRT_unsqueezeTensor",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "descriptors_0",
+    "Location": "Device",
+    "Dimensions": [1,256,100],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 10) [Shuffle]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,100,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": ""
+},{
+  "Name": "ONNXTRT_unsqueezeTensor_42",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "descriptors_1",
+    "Location": "Device",
+    "Dimensions": [1,256,5],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 59) [Shuffle]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,5,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": ""
+},{
+  "Name": "shuffle_between_ONNXTRT_unsqueezeTensor_42_output_and_/gnn/layers.0/attn/proj.1_1/Conv",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 59) [Shuffle]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,5,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_between_ONNXTRT_unsqueezeTensor_42_output_and_/gnn/layers.0/attn/proj.1_1/Conv_out_region",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1_1/Conv]"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /gnn/layers.0/attn/proj.1_1/Conv || /gnn/layers.0/attn/proj.0_1/Conv",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "shuffle_between_ONNXTRT_unsqueezeTensor_42_output_and_/gnn/layers.0/attn/proj.1_1/Conv_out_region",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /gnn/layers.0/attn/proj.1_1/Conv || /gnn/layers.0/attn/proj.0_1/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": ""
+},{
+  "Name": "/gnn/layers.0/attn/proj.1_1/Conv || /gnn/layers.0/attn/proj.0_1/Conv",
+  "LayerType": "CaskGemmConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /gnn/layers.0/attn/proj.1_1/Conv || /gnn/layers.0/attn/proj.0_1/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/gnn/layers.0/attn/proj.1_1/Conv || /gnn/layers.0/attn/proj.0_1/Conv",
+    "Location": "Device",
+    "Dimensions": [1,512,1,5],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 512,
+  "Groups": 1,
+  "Weights": {"Type": "Float", "Count": 131072},
+  "Bias": {"Type": "Float", "Count": 512},
+  "HasBias": 1,
+  "HasReLU": 0,
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "TacticName": "sm50_xmma_cublas_smallN_NN_f32f32_f32_f32_nn_n_thread_count256threads_per_row16b_elems_per_thread2bias_or_reluTrue",
+  "TacticValue": "0x00000000000207c9",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1_1/Conv]\u001e[ONNX Layer: /gnn/layers.0/attn/proj.0_1/Conv]"
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.1_1/Conv_output_copy_input",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/gnn/layers.0/attn/proj.1_1/Conv || /gnn/layers.0/attn/proj.0_1/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.1_1/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1_1/Conv]"
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.1_1/Conv_output",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.1_1/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 88) [Convolution]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,5,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1_1/Conv]"
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.0_1/Conv_output_copy_input",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/gnn/layers.0/attn/proj.1_1/Conv || /gnn/layers.0/attn/proj.0_1/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.0_1/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.0_1/Conv]"
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.0_1/Conv_output",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.0_1/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,5],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 60) [Convolution]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,5,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.0_1/Conv]"
+},{
+  "Name": "shuffle_between_ONNXTRT_unsqueezeTensor_output_and_/gnn/layers.0/attn/proj.1/Conv",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 10) [Shuffle]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,100,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_between_ONNXTRT_unsqueezeTensor_output_and_/gnn/layers.0/attn/proj.1/Conv_out_region",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1/Conv]"
+},{
+  "Name": "Reformatting CopyNode for Input Tensor 0 to /gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "shuffle_between_ONNXTRT_unsqueezeTensor_output_and_/gnn/layers.0/attn/proj.1/Conv_out_region",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "REFORMAT",
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": ""
+},{
+  "Name": "/gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+  "LayerType": "CaskGemmConvolution",
+  "Inputs": [
+  {
+    "Name": "Reformatted Input Tensor 0 to /gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to /gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+    "Location": "Device",
+    "Dimensions": [1,512,1,100],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "ParameterType": "Convolution",
+  "Kernel": [1,1],
+  "PaddingMode": "kEXPLICIT_ROUND_DOWN",
+  "PrePadding": [0,0],
+  "PostPadding": [0,0],
+  "Stride": [1,1],
+  "Dilation": [1,1],
+  "OutMaps": 512,
+  "Groups": 1,
+  "Weights": {"Type": "Float", "Count": 131072},
+  "Bias": {"Type": "Float", "Count": 512},
+  "HasBias": 1,
+  "HasReLU": 0,
+  "HasSparseWeights": 0,
+  "HasDynamicFilter": 0,
+  "HasDynamicBias": 0,
+  "HasResidual": 0,
+  "ConvXAsActInputIdx": -1,
+  "BiasAsActInputIdx": -1,
+  "ResAsActInputIdx": -1,
+  "Activation": "NONE",
+  "TacticName": "turing_sgemm_128x32_sliced1x4_relu_nn_v1",
+  "TacticValue": "0x0000000000020053",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1/Conv]\u001e[ONNX Layer: /gnn/layers.0/attn/proj.0/Conv]"
+},{
+  "Name": "Reformatting CopyNode for Output Tensor 0 to /gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "Reformatted Output Tensor 0 to /gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+    "Location": "Device",
+    "Dimensions": [1,512,1,100],
+    "Format/Datatype": "Channel major FP32 format"
+  }],
+  "Outputs": [
+  {
+    "Name": "/gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+    "Location": "Device",
+    "Dimensions": [1,512,1,100],
+    "Format/Datatype": "Channel major FP32 format where channel % 4 == 0"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": ""
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.1/Conv_output_copy_input",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Channel major FP32 format where channel % 4 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.1/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1/Conv]"
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.1/Conv_output",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.1/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 39) [Convolution]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,100,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.1/Conv]"
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.0/Conv_output_copy_input",
+  "LayerType": "Reformat",
+  "Inputs": [
+  {
+    "Name": "/gnn/layers.0/attn/proj.1/Conv || /gnn/layers.0/attn/proj.0/Conv",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Channel major FP32 format where channel % 4 == 0"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.0/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "ParameterType": "Reformat",
+  "Origin": "SLICE",
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.0/Conv]"
+},{
+  "Name": "shuffle_after_/gnn/layers.0/attn/proj.0/Conv_output",
+  "LayerType": "NoOp",
+  "Inputs": [
+  {
+    "Name": "shuffle_after_/gnn/layers.0/attn/proj.0/Conv_output_copy_input",
+    "Location": "Device",
+    "Dimensions": [1,256,1,100],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "Outputs": [
+  {
+    "Name": "(Unnamed Layer* 11) [Convolution]_output",
+    "Location": "Device",
+    "Dimensions": [1,256,100,1],
+    "Format/Datatype": "Row major linear FP32"
+  }],
+  "TacticValue": "0x0000000000000000",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/proj.0/Conv]"
+},{
+  "Name": "dummy_shape_call__mye3780_0_myl17_0",
+  "LayerType": "shape_call",
+  "Inputs": [],
+  "Outputs": [],
+  "TacticName": "",
+  "StreamId": 0,
+  "Metadata": ""
+},{
+  "Name": "__myl_Tra_myl17_1",
+  "LayerType": "kgen",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 60) [Convolution]_output",
+    "Dimensions": [1,64,4,5],
+    "Format/Datatype": "Float"
+  }],
+  "Outputs": [
+  {
+    "Name": "scores2",
+    "Dimensions": [1,4,5,64],
+    "Format/Datatype": "Float"
+  }],
+  "TacticName": "__myl_Tra_0x706e82505f89d63a081eb06eda6a0520",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn_1/Reshape]\u001e[ONNX Layer: /gnn/layers.0/attn_1/Transpose]"
+},{
+  "Name": "__myl_Tra_myl17_2",
+  "LayerType": "kgen",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 88) [Convolution]_output",
+    "Dimensions": [1,64,4,5],
+    "Format/Datatype": "Float"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_output_ONNXTRT_squeezeTensor_71 _ /gnn/layers_0/attn_1/Reshape_1 _ /gnn/layers_0/attn_1/Transpose_1_first_transpose_output.1",
+    "Dimensions": [1,4,64,5],
+    "Format/Datatype": "Float"
+  }],
+  "TacticName": "__myl_Tra_0x77027fc5bb02831b675baa74a5664854",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn_1/Reshape_1]\u001e[ONNX Layer: /gnn/layers.0/attn_1/Transpose_1]"
+},{
+  "Name": "__myl_Tra_myl17_3",
+  "LayerType": "kgen",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 11) [Convolution]_output",
+    "Dimensions": [1,64,4,100],
+    "Format/Datatype": "Float"
+  }],
+  "Outputs": [
+  {
+    "Name": "scores",
+    "Dimensions": [1,4,100,64],
+    "Format/Datatype": "Float"
+  }],
+  "TacticName": "__myl_Tra_0x16ee3b57cdbd59ea3c2a8b8c2846b5bf",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/Reshape]\u001e[ONNX Layer: /gnn/layers.0/attn/Transpose]"
+},{
+  "Name": "__myl_Tra_myl17_4",
+  "LayerType": "kgen",
+  "Inputs": [
+  {
+    "Name": "(Unnamed Layer* 39) [Convolution]_output",
+    "Dimensions": [1,64,4,100],
+    "Format/Datatype": "Float"
+  }],
+  "Outputs": [
+  {
+    "Name": "shuffle_output_ONNXTRT_squeezeTensor_29 _ /gnn/layers_0/attn/Reshape_1 _ /gnn/layers_0/attn/Transpose_1_first_transpose_output.1",
+    "Dimensions": [1,4,64,100],
+    "Format/Datatype": "Float"
+  }],
+  "TacticName": "__myl_Tra_0x9f9187652129e3f7e30c3517f5840876",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/Reshape_1]\u001e[ONNX Layer: /gnn/layers.0/attn/Transpose_1]"
+},{
+  "Name": "/gnn/layers_0/attn/MatMul_myl17_5",
+  "LayerType": "gemm",
+  "Inputs": [
+  {
+    "Name": "scores",
+    "Dimensions": [4,100,64],
+    "Format/Datatype": "Float"
+  },
+  {
+    "Name": "shuffle_output_ONNXTRT_squeezeTensor_29 _ /gnn/layers_0/attn/Reshape_1 _ /gnn/layers_0/attn/Transpose_1_first_transpose_output.1",
+    "Dimensions": [4,64,100],
+    "Format/Datatype": "Float"
+  },
+  {
+    "Name": "__mye3643/gnn/layers_0/attn/MatMul_alpha",
+    "Dimensions": [1],
+    "Format/Datatype": "Float"
+  },
+  {
+    "Name": "__mye3644/gnn/layers_0/attn/MatMul_beta",
+    "Dimensions": [1],
+    "Format/Datatype": "Float"
+  }],
+  "Outputs": [
+  {
+    "Name": "377",
+    "Dimensions": [4,100,100],
+    "Format/Datatype": "Float"
+  }],
+  "TacticName": "turing_sgemm_128x32_nn_v1",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn/MatMul]"
+},{
+  "Name": "/gnn/layers_0/attn_1/MatMul_myl17_6",
+  "LayerType": "gemm",
+  "Inputs": [
+  {
+    "Name": "scores2",
+    "Dimensions": [4,5,64],
+    "Format/Datatype": "Float"
+  },
+  {
+    "Name": "shuffle_output_ONNXTRT_squeezeTensor_71 _ /gnn/layers_0/attn_1/Reshape_1 _ /gnn/layers_0/attn_1/Transpose_1_first_transpose_output.1",
+    "Dimensions": [4,64,5],
+    "Format/Datatype": "Float"
+  },
+  {
+    "Name": "__mye3664/gnn/layers_0/attn_1/MatMul_alpha",
+    "Dimensions": [1],
+    "Format/Datatype": "Float"
+  },
+  {
+    "Name": "__mye3665/gnn/layers_0/attn_1/MatMul_beta",
+    "Dimensions": [1],
+    "Format/Datatype": "Float"
+  }],
+  "Outputs": [
+  {
+    "Name": "408",
+    "Dimensions": [4,5,5],
+    "Format/Datatype": "Float"
+  }],
+  "TacticName": "sm50_xmma_cublas_smallN_NN_f32f32_f32_f32_nn_n_thread_count256threads_per_row8b_elems_per_thread2bias_or_reluFalse",
+  "StreamId": 0,
+  "Metadata": "[ONNX Layer: /gnn/layers.0/attn_1/MatMul]"
+}],
+"Bindings": ["descriptors_0"
+,"descriptors_1"
+,"scores"
+,"scores2"
+,"377"
+,"408"
+]}
